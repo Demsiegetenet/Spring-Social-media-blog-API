@@ -10,8 +10,12 @@ import java.util.*;
 @Service
 public class AccountService {
 
-    @Autowired
+    @Autowired 
     AccountRepository accountRepository;
+
+    public AccountService(AccountRepository accountRepository){
+        this.accountRepository = accountRepository;
+    }
 
     public Account registerAccount(Account account){
     List<Account> accounts = accountRepository.findAll();
@@ -28,5 +32,15 @@ public class AccountService {
     }
    
      return null;
+    }
+
+    public Account findByAccountId(int account_id){
+
+        Optional<Account> optionalAccount = accountRepository.findById(account_id);
+        if(optionalAccount.isPresent()){
+            return optionalAccount.get();
+        }else{
+            return null;
+        }
     }
 }
