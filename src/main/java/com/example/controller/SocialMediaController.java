@@ -2,11 +2,16 @@ package com.example.controller;
 
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import com.example.entity.Account;
 import com.example.entity.Message;
@@ -59,12 +64,21 @@ public class SocialMediaController {
        if(addedMessage!=null)
        return ResponseEntity.status(200).body(addedMessage);
        else
-       return ResponseEntity.status(400).body(addedMessage);
+       return ResponseEntity.status(409).body(addedMessage);
 
    }
 
    @GetMapping("/messages")
    public ResponseEntity<List<Message>> getAllMessages(){
       return ResponseEntity.status(200).body(messageService.getAllMessages());
+   }
+
+   @PatchMapping("/messages/{message_id}")
+   public ResponseEntity<Message> updateMessage(@PathVariable int message_id, Message message){
+      Message updatedMessage = messageService.updateMesage(message_id,message);
+      if(updatedMessage!=null)
+      return ResponseEntity.status(200).body(updatedMessage);
+      else
+      return ResponseEntity.status(400).build();
    }
 }
