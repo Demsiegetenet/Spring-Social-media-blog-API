@@ -20,14 +20,14 @@ public class AccountService {
     public Account registerAccount(Account account){
                 List<Account> accounts = accountRepository.findAll();
                 for(Account acc:accounts){
-                    if(account.getAccountId()!=acc.getAccountId()){
-                        if(account.getUsername().length()>0 && account.getPassword().length()>=4){
+                    if(acc.getAccountId()!=account.getAccountId()){
+                         if(account.getUsername().length()>0 && account.getPassword().length()>=4){
                             Account registeredAccount = new Account();
                             registeredAccount.setUsername(account.getUsername());
                             registeredAccount.setPassword(account.getPassword());
                             
                             return accountRepository.save(registeredAccount);
-                        }
+                         }
                     }
                 }
     return null;
