@@ -18,20 +18,19 @@ public class AccountService {
     }
 
     public Account registerAccount(Account account){
-    List<Account> accounts = accountRepository.findAll();
-   
-    if(account.getUsername().length()>0 && account.getPassword().length()>=4){
-        for(Account acc:accounts){
-            if(acc.getAccountId()!=account.getAccountId()){
-                accountRepository.save(account);
-                return account;
-            }
-            else
-            return null;
-        }
-    }
-   
-     return null;
+                List<Account> accounts = accountRepository.findAll();
+                for(Account acc:accounts){
+                    if(account.getAccountId()!=acc.getAccountId()){
+                        if(account.getUsername().length()>0 && account.getPassword().length()>=4){
+                            Account registeredAccount = new Account();
+                            registeredAccount.setUsername(account.getUsername());
+                            registeredAccount.setPassword(account.getPassword());
+                            
+                            return accountRepository.save(registeredAccount);
+                        }
+                    }
+                }
+    return null;
     }
 
     public Account findByAccountId(int account_id){
@@ -42,5 +41,16 @@ public class AccountService {
         }else{
             return null;
         }
+    }
+
+    public Account loginAccount(Account account){
+        List<Account> accounts = accountRepository.findAll();
+        for(Account acc:accounts){
+            if(account.getUsername().equals(acc.getUsername()) && account.getPassword().equals(acc.getPassword())){
+                   
+                return acc;
+            }
+        }
+           return null;
     }
 }
