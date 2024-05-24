@@ -17,20 +17,12 @@ public class AccountService {
         this.accountRepository = accountRepository;
     }
 
+    public List<Account> getAllAccounts(){
+        return accountRepository.findAll();
+    }
+
     public Account registerAccount(Account account){
-                List<Account> accounts = accountRepository.findAll();
-                for(Account acc:accounts){
-                    if(acc.getAccountId()!=account.getAccountId()){
-                         if(account.getUsername().length()>0 && account.getPassword().length()>=4){
-                            Account registeredAccount = new Account();
-                            registeredAccount.setUsername(account.getUsername());
-                            registeredAccount.setPassword(account.getPassword());
-                            
-                            return accountRepository.save(registeredAccount);
-                         }
-                    }
-                }
-    return null;
+        return accountRepository.save(account);
     }
 
     public Account findByAccountId(int account_id){

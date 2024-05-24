@@ -41,11 +41,19 @@ public class SocialMediaController {
 
    @PostMapping("/register")
    public ResponseEntity<Account> registerAccount(@RequestBody Account account){
-    Account registeredAccount = accountService.registerAccount(account);
-    if(registeredAccount!=null)
-    return ResponseEntity.status(200).body(registeredAccount);
-   
-    return ResponseEntity.status(409).build();
+    List<Account> accounts = accountService.getAllAccounts();
+ 
+    for(Account acc:accounts){
+      if(account.getUsername().equals(acc.getUsername()))
+      return ResponseEntity.status(409).build();
+      else{
+         if(account.getUsername().length()>0 && account.getPassword().length()>=4){
+            Account registeredAccount = accountService.registerAccount(account);
+           return ResponseEntity.status(200).body(registeredAccount);
+         }
+      }
+    }
+    return ResponseEntity.status(400).build();
 
    }
 
