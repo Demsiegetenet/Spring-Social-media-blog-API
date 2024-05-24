@@ -65,11 +65,12 @@ public class SocialMediaController {
 
    @PostMapping("/messages")
    public ResponseEntity<Message> createMessgae(@RequestBody Message message){
-       Message addedMessage = messageService.addMessage(message);
-       if(addedMessage!=null)
-          return ResponseEntity.status(200).body(addedMessage);
-       else
-          return ResponseEntity.status(409).body(addedMessage);
+      Message addedMessage = messageService.addMessage(message);
+
+            if(addedMessage!=null){
+               return ResponseEntity.status(200).body(addedMessage);
+            }
+          return ResponseEntity.status(400).build();
 
    }
 

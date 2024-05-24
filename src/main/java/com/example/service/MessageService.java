@@ -31,16 +31,13 @@ public class MessageService {
      public Message addMessage(Message message) {
         List<Account> accounts = accountRepository.findAll();
          for(int i=0;i<accounts.size();i++){
-            if(accounts.get(i).getAccountId()==message.getPostedBy()){
-                if(messageRepository.findById(message.getMessageId())==null){
+            if(message.getPostedBy()==accounts.get(i).getAccountId()){
+                // if(messageRepository.findById(message.getMessageId())==null){
                     if(message.getMessageText().length()>0 && message.getMessageText().length()<255){
-                        Message messg = new Message();
-                                              messg.setMessageText(message.getMessageText());
-                                              messg.setPostedBy(message.getPostedBy());
-                                              messg.setTimePostedEpoch(message.getTimePostedEpoch());
-                                      return messageRepository.save(messg);
+                       messageRepository.save(message);
+                       return message;
                  }
-            } 
+            // } 
             }
          }
     return null;
