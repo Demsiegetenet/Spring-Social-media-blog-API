@@ -1,6 +1,8 @@
 package com.example.controller;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -74,6 +76,14 @@ public class SocialMediaController {
    @GetMapping("/messages")
    public ResponseEntity<List<Message>> getAllMessages(){
       return ResponseEntity.status(200).body(messageService.getAllMessages());
+   }
+
+   @GetMapping("/messages/{message_id}")
+   public ResponseEntity<Optional<Message>> getMessageById(@PathVariable int message_id){
+      if(messageService.getMessageByMessageId(message_id)!=null)
+      return ResponseEntity.status(200).body(messageService.getMessageByMessageId(message_id));
+      else
+      return ResponseEntity.status(200).build();
    }
 
    @PatchMapping("/messages/{message_id}")

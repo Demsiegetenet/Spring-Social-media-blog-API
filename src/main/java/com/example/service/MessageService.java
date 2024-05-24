@@ -45,8 +45,13 @@ public class MessageService {
          }
     return null;
 }
-     public Optional<Message> getMessageByPostedBy(int posted_by){
-        return messageRepository.findById(posted_by);
+     public Optional<Message> getMessageByMessageId(int message_id){
+        Optional<Message> optionalMessage = messageRepository.findById(message_id);
+        if(optionalMessage.isPresent()){
+            return optionalMessage;
+        }else{
+            return null;
+        }
         }
 
         public Message updateMesage(Message message,int message_id){
