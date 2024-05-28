@@ -1,5 +1,6 @@
 package com.example.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ import com.example.repository.AccountRepository;
 import com.example.repository.MessageRepository;
 
 @Service
-public class MessageService {
+public class MessageService { 
 
     @Autowired
     MessageRepository messageRepository;
@@ -66,4 +67,21 @@ public class MessageService {
             return null ;  
     }
 
+
+    public List<Message> getMessageByPostedBy(int postedBy){
+
+        List<Message> allMesages = messageRepository.findAll();
+        List<Message> addedMessages = new ArrayList<>();
+
+        for(Message msg: allMesages){
+            if(postedBy==msg.getPostedBy()){
+                addedMessages.add(msg);
+            }
+        }
+    return addedMessages;
+    }
+
+    public void deleteMessageById(int messageId){
+       messageRepository.deleteById(messageId);
+    }
 }
