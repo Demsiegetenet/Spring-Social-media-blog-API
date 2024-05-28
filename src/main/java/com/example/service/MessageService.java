@@ -16,13 +16,18 @@ import com.example.repository.MessageRepository;
 public class MessageService { 
 
     @Autowired
-    MessageRepository messageRepository;
+   MessageRepository messageRepository;
 
     @Autowired
     AccountRepository accountRepository;
 
-    public MessageService(MessageRepository messageRepository){
+    @Autowired
+    AccountService accountService;
+
+
+    public MessageService(MessageRepository messageRepository, AccountRepository accountRepository){
         this.messageRepository = messageRepository;
+        this.accountRepository = accountRepository;
     }
 
     public List<Message> getAllMessages(){
@@ -30,19 +35,9 @@ public class MessageService {
     }
 
      public Message addMessage(Message message) {
-        List<Account> accounts = accountRepository.findAll();
-         for(int i=0;i<accounts.size();i++){
-            if(message.getPostedBy()==accounts.get(i).getAccountId()){
-                // if(messageRepository.findById(message.getMessageId())==null){
-                    if(message.getMessageText().length()>0 && message.getMessageText().length()<255){
-                       messageRepository.save(message);
-                       return message;
-                 }
-            // } 
-            }
-         }
-    return null;
-}
+      return messageRepository.save(message);             
+     }
+
      public Optional<Message> getMessageByMessageId(int message_id){
         Optional<Message> optionalMessage = messageRepository.findById(message_id);
         if(optionalMessage.isPresent()){

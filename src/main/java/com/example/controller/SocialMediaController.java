@@ -66,13 +66,17 @@ public class SocialMediaController {
 
    @PostMapping("/messages")
    public ResponseEntity<Message> createMessgae(@RequestBody Message message){
-      Message addedMessage = messageService.addMessage(message);
-
-            if(addedMessage!=null){
-               return ResponseEntity.status(200).body(addedMessage);
+      List<Account> accounts = accountService.getAllAccounts();
+      
+      for(Account acc:accounts){
+            if(acc.getAccountId().equals(message.getPostedBy())){
+               if(message.getMessageText().length()>0 && message.getMessageText().length()<255){
+                  Message addedMessage = messageService.addMessage(message);
+                  return ResponseEntity.status(200).body(addedMessage);
+               }
             }
-          return ResponseEntity.status(400).build();
-
+      }
+return ResponseEntity.status(400).build();
    }
 
    @GetMapping("/messages")
@@ -104,6 +108,8 @@ public class SocialMediaController {
       else
       return ResponseEntity.status(200).build();
    }
+
+
    @DeleteMapping("/messages/{message_id}")
    public ResponseEntity<Integer> deleteMessage(@PathVariable int message_id){
           if(messageService.getMessageByMessageId(message_id)!=null){
