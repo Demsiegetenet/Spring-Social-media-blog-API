@@ -81,15 +81,17 @@ return ResponseEntity.status(400).build();
 
    @GetMapping("/messages")
    public ResponseEntity<List<Message>> getAllMessages(){
-      return ResponseEntity.status(200).body(messageService.getAllMessages());
+      List<Message> messages = messageService.getAllMessages();
+      return ResponseEntity.status(200).body(messages);
    }
 
    @GetMapping("/messages/{message_id}")
    public ResponseEntity<Optional<Message>> getMessageById(@PathVariable int message_id){
-      if(messageService.getMessageByMessageId(message_id)!=null)
-      return ResponseEntity.status(200).body(messageService.getMessageByMessageId(message_id));
+      Optional<Message> message = messageService.getMessageByMessageId(message_id);
+      if(message!=null)
+         return ResponseEntity.status(200).body(messageService.getMessageByMessageId(message_id));
       else
-      return ResponseEntity.status(200).build();
+          return ResponseEntity.status(200).build();
    }
 
    @PatchMapping("/messages/{message_id}")
@@ -104,9 +106,9 @@ return ResponseEntity.status(400).build();
    @GetMapping("/accounts/{account_id}/messages")
    public ResponseEntity<List<Message>> getMessageByPostedId(@PathVariable int account_id){
       if(messageService.getMessageByPostedBy(account_id)!=null)
-      return ResponseEntity.status(200).body(messageService.getMessageByPostedBy(account_id));
+        return ResponseEntity.status(200).body(messageService.getMessageByPostedBy(account_id));
       else
-      return ResponseEntity.status(200).build();
+         return ResponseEntity.status(200).build();
    }
 
 
