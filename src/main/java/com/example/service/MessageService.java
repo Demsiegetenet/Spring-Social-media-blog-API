@@ -15,15 +15,11 @@ import com.example.repository.MessageRepository;
 @Service
 public class MessageService { 
 
-    @Autowired
+   @Autowired
    MessageRepository messageRepository;
 
     @Autowired
     AccountRepository accountRepository;
-
-    @Autowired
-    AccountService accountService;
-
 
     public MessageService(MessageRepository messageRepository, AccountRepository accountRepository){
         this.messageRepository = messageRepository;
